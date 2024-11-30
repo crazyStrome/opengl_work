@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Shader.h"
 
+#include "events/EventDispatcher.h"
+
 int main(void)
 {
     GLFWwindow* window;
@@ -23,6 +25,14 @@ int main(void)
         return -1;
     }
 
+    EventDispatcher dispatcher(window);
+    dispatcher.RegisterHandler(EventType::EventKeyPressed, [&](Event& event) {
+        EventKeyPressed keyEvent = dynamic_cast<EventKeyPressed&>(event);
+        if (keyEvent.GetKey() == GLFW_KEY_ESCAPE)
+        {
+            glfwSetWindowShouldClose(window, 1);
+        }
+        });
 
     glfwMakeContextCurrent(window);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

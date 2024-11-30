@@ -24,6 +24,9 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\events\EventDispatcher.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GLFW\glfw3.h">
@@ -39,6 +42,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\Shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\Event.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\EventDispatcher.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
