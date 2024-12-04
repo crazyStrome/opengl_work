@@ -1,13 +1,14 @@
 c:\dev\opengl_work\opengl_work\x64\debug\vc143.pdb
 c:\dev\opengl_work\opengl_work\x64\debug\vc143.idb
 c:\dev\opengl_work\opengl_work\x64\debug\shader.obj
-c:\dev\opengl_work\opengl_work\x64\debug\application.obj
-c:\dev\opengl_work\opengl_work\x64\debug\glad.obj
 c:\dev\opengl_work\opengl_work\x64\debug\eventdispatcher.obj
+c:\dev\opengl_work\opengl_work\x64\debug\application.obj
+c:\dev\opengl_work\opengl_work\x64\debug\stb_image.obj
+c:\dev\opengl_work\opengl_work\x64\debug\glad.obj
+c:\dev\opengl_work\opengl_work\x64\debug\texture.obj
 c:\dev\opengl_work\x64\debug\opengl_work.exe
 c:\dev\opengl_work\x64\debug\opengl_work.pdb
 c:\dev\opengl_work\opengl_work\x64\debug\opengl_work.ilk
-c:\dev\opengl_work\opengl_work\x64\debug\event.obj
 c:\dev\opengl_work\opengl_work\x64\debug\opengl_work.tlog\cl.command.1.tlog
 c:\dev\opengl_work\opengl_work\x64\debug\opengl_work.tlog\cl.items.tlog
 c:\dev\opengl_work\opengl_work\x64\debug\opengl_work.tlog\cl.read.1.tlog

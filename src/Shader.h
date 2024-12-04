@@ -20,6 +20,14 @@ public:
 	Shader(Shader&&);
 	Shader& operator=(Shader&&);
 
+	unsigned int GetProgramID() const { return mProgramID; }
+
+	int GetUniformLocation(const std::string&);
+	void SetUniform1i(const std::string&, int);
+	int GetUniform1i(const std::string&);
+
+	void SetUniform1f(const std::string&, float);
+
 	void Use() const;
 	void UnUse() const;
 };

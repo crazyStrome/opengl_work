@@ -1,9 +1,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
-#include "Shader.h"
+#include <stb/stb_image.h>
 
+#include <iostream>
+
+#include "Shader.h"
 #include "events/EventDispatcher.h"
+#include "Texture.h"
 
 int main(void)
 {
@@ -42,10 +45,10 @@ int main(void)
     }
 
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-         0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+         0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f
     };
     unsigned int indices[] = {
         0, 1, 2,
@@ -63,9 +66,9 @@ int main(void)
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
     unsigned int ibo;
     glGenBuffers(1, &ibo);
@@ -78,18 +81,36 @@ int main(void)
     Shader shader("source/shader/hello_square.shader");
     shader.UnUse();
 
+	float borderColor[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+    Texture2D texture("source/picture/awesomeface.png", 
+        GL_LINEAR, GL_LINEAR,
+        GL_CLAMP_TO_BORDER, GL_CLAMP_TO_EDGE,
+        borderColor);
+
+    Texture2D matrix("source/picture/matrix.jpg", 
+        GL_LINEAR, GL_LINEAR,
+        GL_CLAMP_TO_BORDER, GL_REPEAT,
+        borderColor);
+
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shader.Use();
-        glBindVertexArray(vao);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-        glBindVertexArray(0);
-        shader.UnUse();
+        texture.ActiveTexture(GL_TEXTURE1);
+        matrix.ActiveTexture(GL_TEXTURE2);
 
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+		shader.Use();
+		shader.SetUniform1i("ourTexture", 1);
+		shader.SetUniform1i("ourMatrix", 2);
+        float offset = glfwGetTime();
+        shader.SetUniform1f("yOffset", offset);
+		glBindVertexArray(vao);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
+		shader.UnUse();
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
     }
 
     glfwTerminate();

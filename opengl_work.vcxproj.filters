@@ -27,6 +27,12 @@
     <ClCompile Include="src\events\EventDispatcher.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="include\stb\stb_image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GLFW\glfw3.h">
@@ -50,11 +56,25 @@
     <ClInclude Include="src\events\EventDispatcher.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\stb\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shader\hello_square.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="source\picture\awesomeface.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="source\picture\matrix.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

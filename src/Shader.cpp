@@ -140,6 +140,33 @@ Shader& Shader::operator=(Shader&& right)
 	return *this;
 }
 
+int Shader::GetUniformLocation(const std::string& name)
+{
+	int location = glGetUniformLocation(mProgramID, name.c_str());
+	if (location == -1)
+	{
+		std::cout << "GetUniformLocation of: " << mProgramID << ", name: " << name << " not found\n";
+	}
+	return location;
+}
+
+void Shader::SetUniform1i(const std::string& name, int value)
+{
+	glUniform1i(GetUniformLocation(name), value);
+}
+
+int Shader::GetUniform1i(const std::string& name)
+{
+	int value;
+	glGetUniformiv(mProgramID, GetUniformLocation(name), &value);
+	return value;
+}
+
+void Shader::SetUniform1f(const std::string& name, float value)
+{
+	glUniform1f(GetUniformLocation(name), value);
+}
+
 void Shader::Use() const
 {
 	if (mProgramID == 0)
