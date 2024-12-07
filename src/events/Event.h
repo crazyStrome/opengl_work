@@ -80,8 +80,6 @@ public:
 };
 
 class EventWindowMinimize : public Event {
-private:
-	bool m_maximized;
 public:
 	EventWindowMinimize() {}
 	SUB_EVENT_TYPE(EventWindowMinimize)
