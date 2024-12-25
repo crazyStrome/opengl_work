@@ -7,6 +7,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 static ShaderSource loadShaderSource(const std::string& path)
 {
 	std::ifstream file = std::ifstream(path);
@@ -165,6 +167,11 @@ int Shader::GetUniform1i(const std::string& name)
 void Shader::SetUniform1f(const std::string& name, float value)
 {
 	glUniform1f(GetUniformLocation(name), value);
+}
+
+void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& mat)
+{
+	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
 }
 
 void Shader::Use() const

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <glm/glm.hpp>
 
 struct ShaderSource {
 	std::string VertexShaderSource;
@@ -27,6 +28,7 @@ public:
 	int GetUniform1i(const std::string&);
 
 	void SetUniform1f(const std::string&, float);
+	void SetUniformMat4f(const std::string& name, const glm::mat4& mat);
 
 	void Use() const;
 	void UnUse() const;
