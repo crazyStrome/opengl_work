@@ -1,15 +1,21 @@
 #pragma once
-#include <GLFW/glfw3.h>
-#include <map>
-#include <functional>
-
 #include "Event.h"
 
 class EventDispatcher {
 private:
-	std::multimap < EventType, std::function<void(Event&)>> m_handlers;
+	Event& mEvent;
 public:
-	EventDispatcher(GLFWwindow* window);
-	void HandleEvent(Event&);
-	void RegisterHandler(EventType etype, std::function<void(Event&)> handler);
+	EventDispatcher(Event& event)
+		: mEvent(event) {
+	}
+	template<typename T, typename F>
+	bool Dispatch(const F& func)
+	{
+		if (mEvent.GetType() != T::GetStaticType()) {
+			return false;
+		}
+		T& event = dynamic_cast<T&>(mEvent);
+		func(event);
+		return true;
+	}
 };

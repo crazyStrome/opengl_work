@@ -164,11 +164,11 @@
     <ClCompile Include="include\stb\stb_image.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Buffer.cpp" />
-    <ClCompile Include="src\events\EventDispatcher.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\glad\glad.h" />
@@ -182,6 +182,7 @@
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\VertexArray.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />

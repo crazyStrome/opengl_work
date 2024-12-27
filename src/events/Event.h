@@ -25,11 +25,13 @@ public:
 	virtual EventType GetType() {
 		return EventType::Event;
 	}
+	static EventType GetStaticType() { return EventType::Event; }
 };
 
 #define SUB_EVENT_TYPE(name)\
 	~name() {}\
-	virtual EventType GetType() override { return EventType::name; }
+	static EventType GetStaticType() { return EventType::name; } \
+	virtual EventType GetType() override { return GetStaticType(); }
 
 class EventWindowClose: public Event{
 public:
@@ -99,39 +101,36 @@ public:
 
 class EventKeyPressed : public Event {
 private:
-	int m_key, m_mode;
+	int m_key;
 public:
-	EventKeyPressed(int key, int mode) :
-		m_key(key), m_mode(mode) {
+	EventKeyPressed(int key) :
+		m_key(key) {
 	}
 	int GetKey() const { return m_key; }
-	int GetMode() const { return m_mode; }
 
 	SUB_EVENT_TYPE(EventKeyPressed)
 };
 
 class EventKeyReleased : public Event {
 private:
-	int m_key, m_mode;
+	int m_key;
 public:
-	EventKeyReleased(int key, int mode) :
-		m_key(key), m_mode(mode) {
+	EventKeyReleased(int key) :
+		m_key(key) {
 	}
 	int GetKey() const { return m_key; }
-	int GetMode() const { return m_mode; }
 
 	SUB_EVENT_TYPE(EventKeyReleased)
 };
 
 class EventKeyRepeated : public Event {
 private:
-	int m_key, m_mode;
+	int m_key;
 public:
-	EventKeyRepeated(int key, int mode) :
-		m_key(key), m_mode(mode) {
+	EventKeyRepeated(int key) :
+		m_key(key) {
 	}
 	int GetKey() const { return m_key; }
-	int GetMode() const { return m_mode; }
 
 	SUB_EVENT_TYPE(EventKeyRepeated)
 };

@@ -1,9 +1,6 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
 
-#include <iostream>
-
+#include "Window.h"
 #include "Shader.h"
 #include "events/EventDispatcher.h"
 #include "Texture.h"
@@ -17,39 +14,13 @@ const int WIDTH = 1280;
 const int HEIGHT = 960;
 int main(void)
 {
-    GLFWwindow* window;
-    if (!glfwInit())
-    {
-        std::cout << "Failed to init glfw" << std::endl;
-        return -1;
-    }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    window = glfwCreateWindow(WIDTH, HEIGHT, "Hello Triangle", NULL, NULL);
-    if (!window)
-    {
-        std::cout << "Failed to create window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
-    EventDispatcher dispatcher(window);
-    dispatcher.RegisterHandler(EventType::EventKeyPressed, [&](Event& event) {
-        EventKeyPressed keyEvent = dynamic_cast<EventKeyPressed&>(event);
-        if (keyEvent.GetKey() == GLFW_KEY_ESCAPE)
-        {
-            glfwSetWindowShouldClose(window, 1);
+    Window window;
+    window.RegisterHandler([](Event& e) {
+        if (e.GetType() == EventType::EventWindowSize) {
+            EventWindowSize& windowEvent = dynamic_cast<EventWindowSize&>(e);
+            glViewport(0, 0, windowEvent.GetWidth(), windowEvent.GetHeight());
         }
         });
-
-    glfwMakeContextCurrent(window);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
 
 	float vertices[] = {
 	     0.5f, -0.5f, -0.5f,  
@@ -167,7 +138,7 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
 
-    while (!glfwWindowShouldClose(window))
+    while (!window.ShouldClose())
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -197,8 +168,7 @@ int main(void)
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 		shader.UnUse();
 
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+        window.OnUpdate();
     }
 
     glfwTerminate();
