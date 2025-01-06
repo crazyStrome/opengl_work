@@ -3,12 +3,13 @@
 enum class EventType {
 	Event,
 
-	EventWindowClose, EventWindowSize, 
-	EventWindowPosition, 
-	EventWindowMaximize, EventWindowMinimize, 
+	EventWindowClose, EventWindowSize,
+	EventWindowPosition,
+	EventWindowMaximize, EventWindowMinimize,
 	EventWindowGetFocus, EventWindowLoseFocus,
 
 	EventFrameBufferSize,
+	EventFrameUpdate,
 
 	EventKeyPressed, EventKeyReleased, EventKeyRepeated,
 
@@ -61,6 +62,19 @@ public:
 	int GetWidth() const { return m_width; }
 	int GetHeight() const { return m_height; }
 	SUB_EVENT_TYPE(EventFrameBufferSize)
+};
+
+class EventFrameUpdate : public Event {
+private:
+	double m_deltaTime;
+public:
+	EventFrameUpdate(double deltaTime) :
+		m_deltaTime(deltaTime) {
+	}
+
+	double GetDeltaTime() const { return m_deltaTime; }
+
+	SUB_EVENT_TYPE(EventFrameUpdate)
 };
 
 class EventWindowPosition : public Event {

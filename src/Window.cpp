@@ -143,6 +143,18 @@ void Window::ProcessKeys()
 	}
 }
 
+void Window::UpdateFrame()
+{
+	double curTime = glfwGetTime();
+	if (mLastUpdateTime = 0.0f) {
+		mLastUpdateTime = curTime;
+	}
+	double deltaTime = curTime - mLastUpdateTime;
+	mLastUpdateTime = curTime;
+	EventFrameUpdate e(deltaTime);
+	OnEventCallback(e);
+}
+
 void Window::OnEventKeyPressed(EventKeyPressed& event)
 {
 	if (event.GetKey() == GLFW_KEY_ESCAPE) {
@@ -154,6 +166,7 @@ void Window::OnUpdate()
 {
 	glfwSwapBuffers(mWindow);
 	glfwPollEvents();
+	UpdateFrame();
 	ProcessKeys();
 }
 

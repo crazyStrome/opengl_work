@@ -26,6 +26,9 @@ private:
 	// 按键状态表
 	char mKeys[KeysLen];
 
+	// 上一次窗口更新时间
+	double mLastUpdateTime;
+
 	// GLFW 的窗口对象
 	GLFWwindow* mWindow;
 
@@ -38,12 +41,16 @@ private:
 	void OnEventCallback(Event&);
 	// 主动轮询按键情况
 	void ProcessKeys();
+	void UpdateFrame();
 public:
 	Window(int width = 1280, int height = 960, const std::string& title = "Hello Triangle")
 		: mWidth(width), mHeight(height), mTitle(title), mKeys{} {
 		InitWindow();
 		RegisterHandler(std::bind(&Window::OnEvent, this, std::placeholders::_1));
 	}
+
+	int GetWidth() const { return mWidth; }
+	int GetHeight() const { return mHeight; }
 
 	// 每一次渲染后都需要更新
 	void OnUpdate();

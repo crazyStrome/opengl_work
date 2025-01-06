@@ -5,6 +5,7 @@
 #include "events/EventDispatcher.h"
 #include "Texture.h"
 #include "VertexArray.h"
+#include "Camera.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>  
@@ -21,6 +22,9 @@ int main(void)
             glViewport(0, 0, windowEvent.GetWidth(), windowEvent.GetHeight());
         }
         });
+
+    Camera camera;
+    window.RegisterHandler(std::bind(&Camera::OnEvent, &camera, std::placeholders::_1));
 
 	float vertices[] = {
 	     0.5f, -0.5f, -0.5f,  
@@ -158,10 +162,10 @@ int main(void)
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         shader.SetUniformMat4f("model", model);
 
-        glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::mat4 view = camera.GetView();
         shader.SetUniformMat4f("view", view);
 
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), float(WIDTH) / float(HEIGHT), 0.1f, 100.0f);
+        glm::mat4 projection = camera.GetProjection(float(window.GetWidth()) / float(window.GetHeight()), 0.1f, 100.0f);
         shader.SetUniformMat4f("projection", projection);
 
         vertexArray.Bind();
