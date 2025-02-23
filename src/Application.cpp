@@ -1,180 +1,69 @@
-#include <stb/stb_image.h>
-
-#include "Window.h"
-#include "Shader.h"
+#include "Application.h"
 #include "events/EventDispatcher.h"
-#include "Texture.h"
-#include "VertexArray.h"
-#include "Camera.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>  
-#include <glm/gtc/type_ptr.hpp>
-
-const int WIDTH = 1280;
-const int HEIGHT = 960;
-int main(void)
+void Application::OnEventKeyPressed(EventKeyPressed& event)
 {
-    Window window;
-    window.RegisterHandler([](Event& e) {
-        if (e.GetType() == EventType::EventWindowSize) {
-            EventWindowSize& windowEvent = dynamic_cast<EventWindowSize&>(e);
-            glViewport(0, 0, windowEvent.GetWidth(), windowEvent.GetHeight());
-        }
-        });
-
-    Camera camera;
-    window.RegisterHandler(std::bind(&Camera::OnEvent, &camera, std::placeholders::_1));
-
-	float vertices[] = {
-	     0.5f, -0.5f, -0.5f,  
-	     0.5f,  0.5f, -0.5f,  
-	    -0.5f,  0.5f, -0.5f,  
-	    -0.5f, -0.5f, -0.5f,  
-
-	    -0.5f, -0.5f,  0.5f,  
-	    -0.5f,  0.5f,  0.5f,  
-	     0.5f,  0.5f,  0.5f,  
-	     0.5f, -0.5f,  0.5f,  
-
-	    -0.5f, -0.5f, -0.5f,  
-	    -0.5f,  0.5f, -0.5f,  
-	    -0.5f,  0.5f,  0.5f,  
-	    -0.5f, -0.5f,  0.5f,  
-
-	     0.5f, -0.5f,  0.5f,  
-	     0.5f,  0.5f,  0.5f,  
-	     0.5f,  0.5f, -0.5f,  
-	     0.5f, -0.5f, -0.5f,  
-
-	     0.5f, -0.5f,  0.5f,  
-	     0.5f, -0.5f, -0.5f,  
-	    -0.5f, -0.5f, -0.5f,  
-	    -0.5f, -0.5f,  0.5f,  
-
-	    -0.5f,  0.5f,  0.5f,  
-	    -0.5f,  0.5f, -0.5f,  
-	     0.5f,  0.5f, -0.5f,  
-	     0.5f,  0.5f,  0.5f,  
-	};
-
-    float textureCoord[] = {
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-    };
-    unsigned int indices[] = {
-        0, 1, 2,
-        2, 3, 0,
-
-        4, 5, 6,
-        6, 7, 4,
-
-        8, 9,10,
-        10,11,8,
-
-        12,13,14,
-        14,15,12,
-
-        16,17,18,
-        18,19,16,
-
-        20,21,22,
-        22,23,20,
-    };
-
-    VertexBuffer vertexBuffer(vertices, sizeof(vertices));
-    VertexLayout layout;
-    layout.AddAttrib<float>(3, false);
-    vertexBuffer.SetLayout(layout);
-
-    VertexBuffer textureBuffer(textureCoord, sizeof(textureCoord));
-    VertexLayout textureLayout;
-    textureLayout.AddAttrib<float>(2, false);
-    textureBuffer.SetLayout(textureLayout);
-
-    IndexBuffer indexBuffer(indices, sizeof(indices));
-
-    VertexArray vertexArray;
-    vertexArray.AddVertexBuffer(vertexBuffer);
-    vertexArray.AddVertexBuffer(textureBuffer);
-    vertexArray.SetIndexBuffer(indexBuffer);
-
-    Shader shader("source/shader/hello_square.shader");
-    shader.UnUse();
-
-	float borderColor[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-    Texture2D texture("source/picture/awesomeface.png", 
-        GL_LINEAR, GL_LINEAR,
-        GL_CLAMP_TO_BORDER, GL_CLAMP_TO_EDGE,
-        borderColor);
-
-    Texture2D matrix("source/picture/matrix.jpg", 
-        GL_LINEAR, GL_LINEAR,
-        GL_CLAMP_TO_BORDER, GL_REPEAT,
-        borderColor);
-
-    glEnable(GL_DEPTH_TEST);
-
-    while (!window.ShouldClose())
-    {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-        texture.ActiveTexture(GL_TEXTURE1);
-        matrix.ActiveTexture(GL_TEXTURE2);
-
-		shader.Use();
-		shader.SetUniform1i("ourTexture", 1);
-		shader.SetUniform1i("ourMatrix", 2);
-        float offset = glfwGetTime();
-        shader.SetUniform1f("yOffset", offset);
-
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 1.25f));
-        model = glm::rotate(model, float(glfwGetTime()), glm::vec3(1.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-        shader.SetUniformMat4f("model", model);
-
-        glm::mat4 view = camera.GetView();
-        shader.SetUniformMat4f("view", view);
-
-        glm::mat4 projection = camera.GetProjection(float(window.GetWidth()) / float(window.GetHeight()), 0.1f, 100.0f);
-        shader.SetUniformMat4f("projection", projection);
-
-        vertexArray.Bind();
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-		shader.UnUse();
-
-        window.OnUpdate();
+    if (event.GetKey() == GLFW_KEY_ESCAPE) {
+        mShouldClose = true;
     }
+}
 
+void Application::OnEventWindowSize(EventWindowSize& event)
+{
+    glViewport(0, 0, event.GetWidth(), event.GetHeight());
+}
+
+Application::Application()
+    : mWindow(), mLayerStack(),
+    mShouldClose(false), mCamera(),
+    mLastFrameUpdateTime(0.0)
+{
+    mWindow.RegisterHandler(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+    mWindow.RegisterHandler(std::bind(&Camera::OnEvent, &mCamera, std::placeholders::_1));
+}
+
+Application::~Application()
+{
     glfwTerminate();
-    return 0;
+}
+
+void Application::Run()
+{
+    while (!mShouldClose) {
+        mWindow.Clear();
+
+        LayerUpdateArgs args{
+            mCamera.GetView(), 
+            mCamera.GetProjection(float(mWindow.GetWidth()) / float(mWindow.GetHeight()), 0.1f, 100.0f) 
+        };
+
+        for (auto begin = mLayerStack.Begin(); 
+            begin != mLayerStack.End(); 
+            ++begin) {
+            (**begin).OnUpdate(args);
+        }
+
+        double curTime = glfwGetTime();
+        if (mLastFrameUpdateTime == 0.0f) {
+            mLastFrameUpdateTime = curTime;
+        }
+        double deltaTime = curTime - mLastFrameUpdateTime;
+        mLastFrameUpdateTime = curTime;
+
+        mCamera.OnUpdate(deltaTime);
+        mWindow.OnUpdate();
+    }
+}
+
+void Application::OnEvent(Event& event)
+{
+    EventDispatcher dispatcher(event);
+    dispatcher.Dispatch<EventKeyPressed>(std::bind(&Application::OnEventKeyPressed, this, std::placeholders::_1));
+    dispatcher.Dispatch<EventWindowSize>(std::bind(&Application::OnEventWindowSize, this, std::placeholders::_1));
+}
+
+void Application::AddLayer(Layer* layer)
+{
+    mLayerStack.PushLayer(layer);
+    mWindow.RegisterHandler(std::bind(&Layer::OnEvent, layer, std::placeholders::_1));
 }

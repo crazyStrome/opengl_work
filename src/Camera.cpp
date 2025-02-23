@@ -60,7 +60,11 @@ void Camera::OnEvent(Event& event)
 	dispatcher.Dispatch<EventKeyRepeated>(std::bind(&Camera::OnEventKeyRepeated, this, std::placeholders::_1));
 	dispatcher.Dispatch<EventCursorPosition>(std::bind(&Camera::OnEventCursorPosition, this, std::placeholders::_1));
 	dispatcher.Dispatch<EventMouseScroll>(std::bind(&Camera::OnEventMouseScroll, this, std::placeholders::_1));
-	dispatcher.Dispatch<EventFrameUpdate>(std::bind(&Camera::OnEventFrameUpdate, this, std::placeholders::_1));
+}
+
+void Camera::OnUpdate(double delta)
+{
+	mDeltaFrameTime = delta;
 }
 
 void Camera::OnEventKeyPressed(EventKeyPressed& event)
@@ -113,9 +117,4 @@ void Camera::OnEventMouseScroll(EventMouseScroll& scrollEvent)
 	{
 		mZoom = 25.0f;
 	}
-}
-
-void Camera::OnEventFrameUpdate(EventFrameUpdate& frameEvent)
-{
-	mDeltaFrameTime = frameEvent.GetDeltaTime();
 }

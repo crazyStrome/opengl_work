@@ -21,25 +21,34 @@
     <ClCompile Include="src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
+    <ClCompile Include="src\renderer\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="include\stb\stb_image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
+    <ClCompile Include="src\renderer\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\VertexArray.cpp">
+    <ClCompile Include="src\renderer\VertexArray.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\Buffer.cpp">
+    <ClCompile Include="src\renderer\Buffer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\Window.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layers\LayerStack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layers\CubeLayer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +65,7 @@
     <ClInclude Include="include\KHR\khrplatform.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader.h">
+    <ClInclude Include="src\renderer\Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\events\Event.h">
@@ -68,13 +77,13 @@
     <ClInclude Include="include\stb\stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\Texture.h">
+    <ClInclude Include="src\renderer\Texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\VertexArray.h">
+    <ClInclude Include="src\renderer\VertexArray.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\Buffer.h">
+    <ClInclude Include="src\renderer\Buffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\Window.h">
@@ -83,12 +92,25 @@
     <ClInclude Include="src\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Application.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\layers\Layer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\layers\CubeLayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\Renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shader\hello_square.shader" />
+    <None Include="src\layers\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="source\picture\awesomeface.png">

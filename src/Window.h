@@ -20,8 +20,6 @@ private:
 	int mWidth; // 窗口宽
 	int mHeight; // 窗口高
 	std::string mTitle; // 窗口标题
-	// 标识是否需要关闭窗口
-	bool mShouldClose = false;
 
 	// 按键状态表
 	char mKeys[KeysLen];
@@ -41,7 +39,11 @@ private:
 	void OnEventCallback(Event&);
 	// 主动轮询按键情况
 	void ProcessKeys();
-	void UpdateFrame();
+
+	// 统一接收 Window 的事件
+	void OnEvent(Event&);
+	// 更新 Window 的宽高
+	void OnEventWindowSize(EventWindowSize&);
 public:
 	Window(int width = 1280, int height = 960, const std::string& title = "Hello Triangle")
 		: mWidth(width), mHeight(height), mTitle(title), mKeys{} {
@@ -54,14 +56,12 @@ public:
 
 	// 每一次渲染后都需要更新
 	void OnUpdate();
-	bool ShouldClose() const;
+
+	// 清屏
+	void Clear();
 
 	~Window();
 
 	// 注册业务方的事件回调函数
 	void RegisterHandler(std::function<void(Event&)>);
-	// 自身使用的一个回调函数
-	void OnEvent(Event&);
-	// 处理按键回调
-	void OnEventKeyPressed(EventKeyPressed&);
 };

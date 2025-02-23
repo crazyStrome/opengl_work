@@ -107,6 +107,7 @@ void Window::InitWindow()
 		EventMouseScroll event(xoffset, yoffset);
 		w->OnEventCallback(event);
 		});
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Window::OnEventCallback(Event& event)
@@ -143,36 +144,29 @@ void Window::ProcessKeys()
 	}
 }
 
-void Window::UpdateFrame()
+void Window::OnEvent(Event& event)
 {
-	double curTime = glfwGetTime();
-	if (mLastUpdateTime = 0.0f) {
-		mLastUpdateTime = curTime;
-	}
-	double deltaTime = curTime - mLastUpdateTime;
-	mLastUpdateTime = curTime;
-	EventFrameUpdate e(deltaTime);
-	OnEventCallback(e);
+	EventDispatcher dispatcher(event);
+	dispatcher.Dispatch<EventWindowSize>(std::bind(&Window::OnEventWindowSize, this, std::placeholders::_1));
 }
 
-void Window::OnEventKeyPressed(EventKeyPressed& event)
+void Window::OnEventWindowSize(EventWindowSize& event)
 {
-	if (event.GetKey() == GLFW_KEY_ESCAPE) {
-		mShouldClose = true;
-	}
+	mWidth = event.GetWidth();
+	mHeight = event.GetHeight();
 }
 
 void Window::OnUpdate()
 {
 	glfwSwapBuffers(mWindow);
 	glfwPollEvents();
-	UpdateFrame();
 	ProcessKeys();
 }
 
-bool Window::ShouldClose() const
+void Window::Clear()
 {
-	return mShouldClose;
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 }
 
 Window::~Window()
@@ -183,10 +177,4 @@ Window::~Window()
 void Window::RegisterHandler(std::function<void(Event&)> func)
 {
 	mHandlers.push_back(func);
-}
-
-void Window::OnEvent(Event& event)
-{
-	EventDispatcher dispatcher(event);
-	dispatcher.Dispatch<EventKeyPressed>(std::bind(&Window::OnEventKeyPressed, this, std::placeholders::_1));
 }

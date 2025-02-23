@@ -6,9 +6,9 @@
 #include <glm/gtc/matrix_transform.hpp>  
 #include <glm/gtc/type_ptr.hpp>
 
-static const float defaultMoveSensitivity = 0.0001f; // “∆∂Ø¡È√Ù∂»
-static const float defaultZoomSensitivity = 0.03f; // Àı∑≈¡È√Ù∂»
-static const float defaultEulerSensitivity = 0.01f; // ≈∑¿≠Ω«¡È√Ù∂»
+static const float defaultMoveSensitivity = 1.0f; // “∆∂Ø¡È√Ù∂»
+static const float defaultZoomSensitivity = 100.0f; // Àı∑≈¡È√Ù∂»
+static const float defaultEulerSensitivity = 50.0f; // ≈∑¿≠Ω«¡È√Ù∂»
 
 class Camera {
 private:
@@ -39,7 +39,6 @@ private:
 	void OnEventKeyRepeated(EventKeyRepeated&);
 	void OnEventCursorPosition(EventCursorPosition&);
 	void OnEventMouseScroll(EventMouseScroll&);
-	void OnEventFrameUpdate(EventFrameUpdate&);
 public:
 	Camera(const glm::vec3& eye = glm::vec3(0.0f, 0.0f, 2.0f),
 		const glm::vec3& center = glm::vec3(0.0f, 0.0f, 0.0f),
@@ -57,4 +56,5 @@ public:
 	glm::mat4 GetProjection(float aspect, float near, float far) const;
 
 	void OnEvent(Event&);
+	void OnUpdate(double);
 };
