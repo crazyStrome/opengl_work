@@ -12,12 +12,17 @@ private:
 	VertexArray mVertexArray;
 
 	Shader mShader;
+	Shader mBorderShader;
 	Texture2D mTexture;
 	Texture2D mMatrix;
 
 	double mLast;
+	float mCursorXpos;
+	float mCursorYpos;
+
+	void OnEventCursorPosition(EventCursorPosition&);
 public:
-	//void OnEvent(Event&) override;
+	void OnEvent(Event&) override;
 	void OnUpdate(const LayerUpdateArgs&) override;
 
 	CubeLayer();

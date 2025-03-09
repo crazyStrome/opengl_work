@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shader\hello_square.shader" />
+    <None Include="source\shader\square_border.shader" />
     <None Include="src\layers\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>

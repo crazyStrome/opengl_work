@@ -33,8 +33,14 @@ void Application::Run()
         mWindow.Clear();
 
         LayerUpdateArgs args{
-            mCamera.GetView(), 
-            mCamera.GetProjection(float(mWindow.GetWidth()) / float(mWindow.GetHeight()), 0.1f, 100.0f) 
+            mCamera.GetView(),
+            mCamera.GetProjection(
+                float(mWindow.GetWidth()) / float(mWindow.GetHeight()), 
+                mNearZpos, mFarZpos),
+            mWindow.GetWidth(),
+            mWindow.GetHeight(),
+            mNearZpos,
+            mFarZpos,
         };
 
         for (auto begin = mLayerStack.Begin(); 

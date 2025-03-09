@@ -111,6 +111,7 @@
   <ItemGroup>
     <None Include="source\shader\hello_square.shader" />
     <None Include="src\layers\LayerStack.h" />
+    <None Include="source\shader\square_border.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="source\picture\awesomeface.png">

@@ -6,6 +6,9 @@
 #include "events/Event.h"
 #include "layers/LayerStack.h"
 
+static const float defaultNearZpos = 0.1f;
+static const float defaultFarZpos = 100.0f;
+
 class Application
 {
 private:
@@ -16,6 +19,8 @@ private:
 	Camera mCamera;
 
 	double mLastFrameUpdateTime;
+	float mNearZpos = defaultNearZpos;
+	float mFarZpos = defaultFarZpos;
 
 	void OnEventKeyPressed(EventKeyPressed&);
 	void OnEventWindowSize(EventWindowSize&);

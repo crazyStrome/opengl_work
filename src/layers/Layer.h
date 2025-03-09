@@ -7,6 +7,10 @@
 struct LayerUpdateArgs {
 	glm::mat4 view;
 	glm::mat4 projection;
+	int windowWidth;
+	int windowHeight;
+	float nearZpos;
+	float farZpos;
 };
 
 class Layer {
